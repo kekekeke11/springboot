@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="kk-app" />
+        <module name="kk-heros-service" />
+        <module name="kk-heros-service-7100" />
+        <module name="kk-heros-service-9100" />
+        <module name="kk-rabbitmq" />
+        <module name="kk-region-service" />
+        <module name="kk-story-service" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="kk-dao" target="1.8" />
+      <module name="kk-service" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="kk-app" options="-parameters" />
+      <module name="kk-dao" options="-parameters" />
+      <module name="kk-heros-service" options="-parameters" />
+      <module name="kk-heros-service-7100" options="-parameters" />
+      <module name="kk-heros-service-9100" options="-parameters" />
+      <module name="kk-rabbitmq" options="-parameters" />
+      <module name="kk-region-service" options="-parameters" />
+      <module name="kk-service" options="-parameters" />
+      <module name="kk-story-service" options="-parameters" />
+    </option>
+  </component>
+</project>
