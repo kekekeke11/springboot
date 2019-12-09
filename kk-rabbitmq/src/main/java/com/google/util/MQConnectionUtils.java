@@ -1,5 +1,6 @@
 package com.google.util;
 
+import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
 
@@ -30,5 +31,18 @@ public class MQConnectionUtils {
         // 7.创建新的连接
         Connection newConnection = factory.newConnection();
         return newConnection;
+    }
+
+    /**
+     * 创建渠道
+     * @return
+     * @throws IOException
+     * @throws TimeoutException
+     */
+    public static Channel getChannel() throws IOException, TimeoutException {
+        //获取连接
+        Connection connection = MQConnectionUtils.newConnection();
+        //创建通道
+        return connection.createChannel();
     }
 }

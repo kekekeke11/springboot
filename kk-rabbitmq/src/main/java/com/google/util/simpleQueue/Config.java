@@ -7,5 +7,5 @@ package com.google.util.simpleQueue;
  **/
 public class Config {
 
-    public static final String SIMPL_QUEUE_01 = "SIMPL_QUEUE_01";
+    public static final String SIMPLE_QUEUE_01 = "SIMPLE_QUEUE_01";
 }
