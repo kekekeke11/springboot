@@ -14,7 +14,7 @@ import java.util.concurrent.TimeoutException;
  * @Description:
  * @date 2019/12/6 18:07
  **/
-public class Customer2 {
+public class Consumer2 {
 
     static String queue = Config.WORK_QUEUE_01;
 
