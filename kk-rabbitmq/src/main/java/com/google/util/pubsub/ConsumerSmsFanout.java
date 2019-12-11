@@ -2,7 +2,7 @@ package com.google.util.pubsub;
 
 import com.google.util.MQConnectionUtils;
 import com.rabbitmq.client.*;
-
+import com.google.util.config.Config;
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;
 

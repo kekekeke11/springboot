@@ -1,6 +1,7 @@
 package com.google.util.routing;
 
 import com.google.util.MQConnectionUtils;
+import com.google.util.config.Config;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 
@@ -25,11 +26,12 @@ public class RoutingProducer {
         //生产者绑定交换机 （交换机名称，交换机类型）
         channel.exchangeDeclare(EXCHANGE_NAME, Config.exchangeType.direct);
 
+        String routingKey = "sms";
         System.out.println("路由模式-生产者启动！");
-        String msg = "RabbitMQ路由模式的消息33";
+        String msg = "[" + routingKey + "]RabbitMQ路由模式的消息❤";
         System.out.println(msg);
         //发送消息
-        channel.basicPublish(EXCHANGE_NAME, "", null, msg.getBytes());
+        channel.basicPublish(EXCHANGE_NAME, routingKey, null, msg.getBytes());
         //关闭通道和连接
         channel.close();
         connection.close();

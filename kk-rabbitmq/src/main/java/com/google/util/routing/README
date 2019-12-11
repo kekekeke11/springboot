@@ -1,2 +1,5 @@
 RabbitMQ消息队列：
 路由模式RoutingKey
+channel.basicPublish(params)
+生产者发布了routingKey的消息
+凡是有routingKey的消费者都会获取到生产者消息

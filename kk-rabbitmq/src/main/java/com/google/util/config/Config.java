@@ -1,4 +1,4 @@
-package com.google.util.pubsub;
+package com.google.util.config;
 
 /**
  * @author wk
@@ -10,8 +10,12 @@ public class Config {
     //扇形交换机
     public static final String FANOUT_EXCHANGE = "FANOUT_EXCHANGE";
 
+    //路由
+    public static final String DIRECT_EXCHANGE = "DIRECT_EXCHANGE";
+
     public static class exchangeType {
         public static final String fanout = "fanout";
+        public static final String direct = "direct";
     }
 
 }
