@@ -1,0 +1,2 @@
+RabbitMQ消息队列之通配符模式
+routingKey="msg.*"  msg.#(匹配所有的词) msg.*(只匹配一个词)
