@@ -7,3 +7,6 @@ spring:
     virtual-host: /wk_virtual_hosts
 server:
   port: 2121
+# 关闭eureka注册发现
+eureka.client.register-with-eureka: false
+eureka.client.fetch-registry: false
