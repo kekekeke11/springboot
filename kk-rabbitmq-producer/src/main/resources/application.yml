@@ -1,0 +1,9 @@
+spring:
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672
+    username: root
+    password: 1234
+    virtual-host: /wk_virtual_hosts
+server:
+  port: 2100
