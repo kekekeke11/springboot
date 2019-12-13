@@ -27,6 +27,6 @@ public class FanoutEmailConsumer2 {
         if (httpResult == null || httpResult.getCode() != HttpStatus.SC_OK) {
             throw new BusinessException("邮件服务调用失败");
         }
-        System.out.println("邮件服务调用成功！consumer2");
+        System.out.println("邮件服务调用成功！FanoutEmailConsumer2");
     }
 }

@@ -14,7 +14,7 @@ spring:
           ####最大重试次数
           max-attempts: 5
           ####重试间隔次数
-          initial-interval: 3000
+          initial-interval: 10000
 
 server:
   port: 2121
@@ -22,3 +22,4 @@ server:
 eureka.client.register-with-eureka: false
 eureka.client.fetch-registry: false
 emailUrl: http://127.0.0.1:8888/sendEmail
+smsUrl: http://127.0.0.1:8888/sendSms

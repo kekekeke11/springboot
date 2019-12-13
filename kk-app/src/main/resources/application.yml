@@ -1,2 +1,5 @@
 server:
   port: 8888
+# 暂时关闭eureka注册发现
+eureka.client.register-with-eureka: false
+eureka.client.fetch-registry: false

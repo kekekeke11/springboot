@@ -27,3 +27,6 @@ listener:
 
 5.@RabbitListener
 可以标记类（需配合@RabbitHandler）、方法
+
+6.消费者如何保证消息幂等性，不被重复消费？
+使用全局MessageID判断消费方使用同一个，解决幂等性

@@ -199,8 +199,7 @@ public class HttpRequestUtils {
             httpResponse = closeableHttpClient.execute(get);
             return getHttpResult(httpResponse, CHARSET_UTF8);
         } catch (Exception e) {
-            log.error("httpclient请求失败", e);
-            e.printStackTrace();
+            log.error("httpclient请求失败:" + url, e);
             return null;
         } finally {
             closeStream(httpResponse);
