@@ -13,6 +13,11 @@ import org.springframework.stereotype.Component;
 @RabbitListener(queues = "FANOUT_EMAIL_QUEUE")
 public class FanoutEmailConsumer {
 
+    /**
+     * @RabbitHandler 自动接收应答
+     * @param msg
+     */
+
     @RabbitHandler
     public void process(String msg) {
         System.out.println("FanoutEmailConsumer获取消息：" + msg);

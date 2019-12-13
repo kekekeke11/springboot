@@ -1,5 +1,6 @@
 package com.google.producer;
 
+import com.alibaba.fastjson.JSONObject;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,8 +25,10 @@ public class FanoutProducer {
      * @param queueName
      */
     public void send(String queueName) {
-        String msg = "SpringBoot整合RabbitMQ:" + new Date();
-        System.out.println("Fanout生产者发送消息：" + msg);
-        amqpTemplate.convertAndSend(queueName, msg);
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("email", "1357760345@qq.com");
+        jsonObject.put("content", "SpringBoot整合RabbitMQ");
+        jsonObject.put("timestamp", System.currentTimeMillis());
+        amqpTemplate.convertAndSend(queueName, jsonObject.toJSONString());
     }
 }

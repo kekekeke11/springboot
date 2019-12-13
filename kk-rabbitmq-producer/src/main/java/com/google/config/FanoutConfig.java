@@ -15,6 +15,8 @@ public class FanoutConfig {
 
     //邮件队列
     private String FANOUT_EMAIL_QUEUE = "FANOUT_EMAIL_QUEUE";
+    private String FANOUT_EMAIL_QUEUE2 = "FANOUT_EMAIL_QUEUE2";
+
     //短信队列
     private String FANOUT_SMS_QUEUE = "FANOUT_SMS_QUEUE";
 
@@ -30,6 +32,12 @@ public class FanoutConfig {
     public Queue fanoutEmailQueue() {
         //构造方法多态
         return new Queue(FANOUT_EMAIL_QUEUE);
+    }
+
+    @Bean
+    public Queue fanoutEmailQueue2() {
+        //构造方法多态
+        return new Queue(FANOUT_EMAIL_QUEUE2);
     }
 
     /**
@@ -57,6 +65,12 @@ public class FanoutConfig {
     @Bean
     Binding bindingExchangeEamil(Queue fanoutEmailQueue, FanoutExchange fanoutExchange) {
         return BindingBuilder.bind(fanoutEmailQueue).to(fanoutExchange);
+    }
+
+    // 3.邮件队列与交换机绑定
+    @Bean
+    Binding bindingExchangeEamil2(Queue fanoutEmailQueue2, FanoutExchange fanoutExchange) {
+        return BindingBuilder.bind(fanoutEmailQueue2).to(fanoutExchange);
     }
 
     // 4.短信队列与交换机绑定

@@ -11,6 +11,14 @@
 
     <artifactId>kk-app</artifactId>
     <packaging>jar</packaging>
+    <dependencies>
+        <dependency>
+            <groupId>springboot</groupId>
+            <artifactId>kk-common</artifactId>
+            <version>1.0</version>
+            <scope>compile</scope>
+        </dependency>
+    </dependencies>
 
     <dependencyManagement>
         <dependencies>

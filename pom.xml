@@ -18,6 +18,7 @@
         <module>kk-rabbitmq</module>
         <module>kk-rabbitmq-consumer</module>
         <module>kk-rabbitmq-producer</module>
+        <module>kk-common</module>
     </modules>
 
     <parent>
