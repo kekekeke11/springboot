@@ -4,6 +4,9 @@ import org.springframework.amqp.core.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
+import java.util.HashMap;
+import java.util.Map;
+
 
 /**
  * @author wk
@@ -13,18 +16,25 @@ import org.springframework.stereotype.Component;
 @Component
 public class FanoutConfig {
 
-    //邮件队列
-    private String FANOUT_EMAIL_QUEUE = "FANOUT_EMAIL_QUEUE";
-    private String FANOUT_EMAIL_QUEUE2 = "FANOUT_EMAIL_QUEUE2";
+    /*
+        1.定义队列
+        2.定义交换机
+        3.队列绑定交换机
+     */
 
-    //短信队列
-    private String FANOUT_SMS_QUEUE = "FANOUT_SMS_QUEUE";
-    //短信队列
-    private String FANOUT_SMS_QUEUE2 = "FANOUT_SMS_QUEUE2";
-    private String FANOUT_SMS_QUEUE3 = "FANOUT_SMS_QUEUE3";
-
-    //fanout类型交换机
-    private String EXCHANGE_NAME = "FANOUT_EXCHANGE";
+    /**
+     * 短信队列，将普通队列绑定到死信队列交换机上
+     *
+     * @return
+     */
+    @Bean
+    public Queue fanoutSmsQueue4() {
+        Map<String, Object> args = new HashMap<>(2);
+        args.put(MQConfig.ROUTING_KEYS.DEAD_LETTER_QUEUE_KEY, MQConfig.EXCHANGE_NAMES.dead_exchange);
+        args.put(MQConfig.ROUTING_KEYS.DEAD_LETTER_ROUTING_KEY, MQConfig.ROUTING_KEYS.deadRoutingKey);
+        Queue queue = new Queue(MQConfig.QUEUE_NAMES.FANOUT_SMS_QUEUE4, true, false, false, args);
+        return queue;
+    }
 
     /**
      * 1.定义邮件队列
@@ -34,13 +44,13 @@ public class FanoutConfig {
     @Bean
     public Queue fanoutEmailQueue() {
         //构造方法多态
-        return new Queue(FANOUT_EMAIL_QUEUE);
+        return new Queue(MQConfig.QUEUE_NAMES.FANOUT_EMAIL_QUEUE);
     }
 
     @Bean
     public Queue fanoutEmailQueue2() {
         //构造方法多态
-        return new Queue(FANOUT_EMAIL_QUEUE2);
+        return new Queue(MQConfig.QUEUE_NAMES.FANOUT_EMAIL_QUEUE2);
     }
 
     /**
@@ -50,17 +60,17 @@ public class FanoutConfig {
      */
     @Bean
     public Queue fanoutSmsQueue() {
-        return new Queue(FANOUT_SMS_QUEUE);
+        return new Queue(MQConfig.QUEUE_NAMES.FANOUT_SMS_QUEUE);
     }
 
     @Bean
     public Queue fanoutSmsQueue2() {
-        return new Queue(FANOUT_SMS_QUEUE2);
+        return new Queue(MQConfig.QUEUE_NAMES.FANOUT_SMS_QUEUE2);
     }
 
     @Bean
     public Queue fanoutSmsQueue3() {
-        return new Queue(FANOUT_SMS_QUEUE3);
+        return new Queue(MQConfig.QUEUE_NAMES.FANOUT_SMS_QUEUE3);
     }
 
     /**
@@ -71,7 +81,7 @@ public class FanoutConfig {
     @Bean
     public FanoutExchange fanoutExchange() {
         //构造方法多态
-        return new FanoutExchange(EXCHANGE_NAME);
+        return new FanoutExchange(MQConfig.EXCHANGE_NAMES.FANOUT_EXCHANGE);
     }
 
     // 3.邮件队列与交换机绑定
@@ -102,5 +112,38 @@ public class FanoutConfig {
     Binding bindingExchangeSms3(Queue fanoutSmsQueue3, FanoutExchange fanoutExchange) {
         return BindingBuilder.bind(fanoutSmsQueue3).to(fanoutExchange);
     }
+
+    @Bean
+    Binding bindingExchangeSms4(Queue fanoutSmsQueue4, FanoutExchange fanoutExchange) {
+        return BindingBuilder.bind(fanoutSmsQueue4).to(fanoutExchange);
+    }
+
+
+    /**
+     * 配置死信队列
+     *
+     * @return
+     */
+    @Bean
+    public Queue deadQueue() {
+        Queue queue = new Queue(MQConfig.QUEUE_NAMES.deadQueueName, true);
+        return queue;
+    }
+
+    /**
+     * 路由 交换机
+     *
+     * @return
+     */
+    @Bean
+    public DirectExchange deadExchange() {
+        return new DirectExchange(MQConfig.EXCHANGE_NAMES.dead_exchange);
+    }
+
+    @Bean
+    public Binding bindingDeadExchange(Queue deadQueue, DirectExchange deadExchange) {
+        return BindingBuilder.bind(deadQueue).to(deadExchange).with(MQConfig.ROUTING_KEYS.deadRoutingKey);
+    }
+
 
 }

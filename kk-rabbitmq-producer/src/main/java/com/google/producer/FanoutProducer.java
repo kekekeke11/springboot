@@ -41,11 +41,12 @@ public class FanoutProducer {
      *
      * @param queueName
      */
-    public void sendSms(String queueName) {
+    public void sendSms(String queueName, Integer i) {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("sms", "1357760345@qq.com");
         jsonObject.put("content", "SpringBoot整合RabbitMQ");
         jsonObject.put("timestamp", System.currentTimeMillis());
+        jsonObject.put("number", i);
 
         //生产者发送消息，需要设置消息ID
         Message message = MessageBuilder.withBody(jsonObject.toJSONString().getBytes()).setContentType(MessageProperties.CONTENT_TYPE_JSON)

@@ -1,2 +1,7 @@
 SpringBoot整合RabbitMQ:
 生产者
+
+RabbitMQ死信队列（备胎）：
+1.队列长度已满
+2.消费者拒绝消费
+3.消息已过期

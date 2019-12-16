@@ -21,12 +21,12 @@ public class FanoutProducerController {
     private FanoutProducer fanoutProducer;
 
     @RequestMapping(value = "/sendMessage")
-    public String sendMessage(String queueName) {
+    public String sendMessage(String queueName,Integer i) {
         if (StringUtils.isBlank(queueName)) {
             return "queueName参数非法";
         }
         if (queueName.contains("SMS")) {
-            fanoutProducer.sendSms(queueName);
+            fanoutProducer.sendSms(queueName,i);
         } else {
             fanoutProducer.send(queueName);
         }
