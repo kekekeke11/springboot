@@ -1,0 +1,5 @@
+<jdbc.driver>com.mysql.jdbc.Driver</jdbc.driver>
+<jdbc.url>jdbc:mysql://db.zhongjincloud.com:3306/scm_hegang_test?useUnicode=true&amp;characterEncoding=UTF-8</jdbc.url>
+<jdbc.username>scm_hegang_test</jdbc.username>
+<jdbc.password>Op3rsYwIL1sLVSGjv5Vp</jdbc.password>
+<lic.path>D:/lincese.lic</lic.path>
