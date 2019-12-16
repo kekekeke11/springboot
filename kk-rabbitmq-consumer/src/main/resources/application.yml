@@ -15,7 +15,8 @@ spring:
           max-attempts: 5
           ####重试间隔次数
           initial-interval: 10000
-
+        #（应答模式）开启手动ack
+        acknowledge-mode: manual
 server:
   port: 2121
 # 关闭eureka注册发现

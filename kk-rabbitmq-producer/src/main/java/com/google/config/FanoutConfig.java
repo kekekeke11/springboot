@@ -21,6 +21,7 @@ public class FanoutConfig {
     private String FANOUT_SMS_QUEUE = "FANOUT_SMS_QUEUE";
     //短信队列
     private String FANOUT_SMS_QUEUE2 = "FANOUT_SMS_QUEUE2";
+    private String FANOUT_SMS_QUEUE3 = "FANOUT_SMS_QUEUE3";
 
     //fanout类型交换机
     private String EXCHANGE_NAME = "FANOUT_EXCHANGE";
@@ -57,6 +58,11 @@ public class FanoutConfig {
         return new Queue(FANOUT_SMS_QUEUE2);
     }
 
+    @Bean
+    public Queue fanoutSmsQueue3() {
+        return new Queue(FANOUT_SMS_QUEUE3);
+    }
+
     /**
      * 2.定义交换机
      *
@@ -90,6 +96,11 @@ public class FanoutConfig {
     @Bean
     Binding bindingExchangeSms2(Queue fanoutSmsQueue2, FanoutExchange fanoutExchange) {
         return BindingBuilder.bind(fanoutSmsQueue2).to(fanoutExchange);
+    }
+
+    @Bean
+    Binding bindingExchangeSms3(Queue fanoutSmsQueue3, FanoutExchange fanoutExchange) {
+        return BindingBuilder.bind(fanoutSmsQueue3).to(fanoutExchange);
     }
 
 }

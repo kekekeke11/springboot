@@ -2,6 +2,7 @@ package com.google.producer;
 
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.amqp.core.AmqpTemplate;
+import org.springframework.amqp.core.Message;
 import org.springframework.amqp.core.MessageBuilder;
 import org.springframework.amqp.core.MessageProperties;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,8 +48,8 @@ public class FanoutProducer {
         jsonObject.put("timestamp", System.currentTimeMillis());
 
         //生产者发送消息，需要设置消息ID
-        MessageBuilder.withBody(jsonObject.toJSONString().getBytes()).setContentType(MessageProperties.CONTENT_TYPE_JSON)
+        Message message = MessageBuilder.withBody(jsonObject.toJSONString().getBytes()).setContentType(MessageProperties.CONTENT_TYPE_JSON)
                 .setContentEncoding("UTF-8").setMessageId(UUID.randomUUID() + "").build();
-        amqpTemplate.convertAndSend(queueName, jsonObject.toJSONString());
+        amqpTemplate.convertAndSend(queueName, message);
     }
 }
