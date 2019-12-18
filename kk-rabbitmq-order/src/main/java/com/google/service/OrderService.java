@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSONObject;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class OrderService extends BaseApiService implements RabbitTemplate.ConfirmCallback {
@@ -26,6 +27,7 @@ public class OrderService extends BaseApiService implements RabbitTemplate.Confi
     @Autowired
     private RabbitTemplate rabbitTemplate;
 
+    @Transactional
     public ResponseBase addOrderAndDispatch() {
         OrderEntity orderEntity = new OrderEntity();
         orderEntity.setName("蚂蚁课堂永久会员充值");
@@ -42,12 +44,16 @@ public class OrderService extends BaseApiService implements RabbitTemplate.Confi
         // ##################################################
         // 1.先下单，创建订单 (往订单数据库中插入一条数据)
         int orderResult = orderMapper.addOrder(orderEntity);
-        System.out.println("orderResult:" + orderResult);
+        System.out.println("创建订单orderResult:" + orderResult);
         if (orderResult <= 0) {
             return setResultError("下单失败!");
         }
         // 2.使用消息中间件将参数存在派单队列中
         send(orderId);
+
+        //模拟场景3 前面创建的订单会回滚，补单开始起作用
+        int i = 1 / 0;
+
         return setResultSuccess();
     }
 
@@ -55,20 +61,29 @@ public class OrderService extends BaseApiService implements RabbitTemplate.Confi
         JSONObject jsonObect = new JSONObject();
         jsonObect.put("orderId", orderId);
         String msg = jsonObect.toJSONString();
-        System.out.println("msg:" + msg);
+        System.out.println("生产者发送的msg:" + msg);
         // 封装消息
         Message message = MessageBuilder.withBody(msg.getBytes()).setContentType(MessageProperties.CONTENT_TYPE_JSON)
                 .setContentEncoding("utf-8").setMessageId(orderId).build();
         // 构建回调返回的数据
         CorrelationData correlationData = new CorrelationData(orderId);
-        // 发送消息
+
+        // 发送消息 rue：RabbitMQ会调用Basic.Return命令将消息返回给生产者
+        //false：RabbitMQ会把消息直接丢弃
         this.rabbitTemplate.setMandatory(true);
+
         this.rabbitTemplate.setConfirmCallback(this);
         rabbitTemplate.convertAndSend("order_exchange_name", "orderRoutingKey", message, correlationData);
 
     }
 
-    // 生产消息确认机制
+    /**
+     * 生产消息确认机制 （生产者往服务器端发送消息的时候，采用应答机制）
+     *
+     * @param correlationData
+     * @param ack
+     * @param cause
+     */
     @Override
     public void confirm(CorrelationData correlationData, boolean ack, String cause) {
         String orderId = correlationData.getId();
@@ -76,8 +91,9 @@ public class OrderService extends BaseApiService implements RabbitTemplate.Confi
         if (ack) {
             System.out.println("消息发送确认成功");
         } else {
+            //重试机制 （最大重试次数配置）
+            System.out.println("生产者消息发送确认失败，开始重试:" + cause);
             send(orderId);
-            System.out.println("消息发送确认失败:" + cause);
         }
 
     }
