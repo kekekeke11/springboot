@@ -1,5 +1,6 @@
-package com.google.controller;
+package com.google;
 
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -8,6 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @Description:
  * @date 2019/11/25 16:05
  **/
+@MapperScan("com.google.mapper")
 @SpringBootApplication(scanBasePackages="com.google")
 public class WebApplication {
 
