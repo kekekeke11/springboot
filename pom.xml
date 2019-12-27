@@ -21,6 +21,7 @@
         <module>kk-common</module>
         <module>kk-rabbitmq-order</module>
         <module>kk-rabbitmq-dic</module>
+        <module>kk-biz-service</module>
     </modules>
 
     <parent>
