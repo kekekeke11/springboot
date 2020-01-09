@@ -221,6 +221,7 @@ public class ExcelUtils {
             os.flush();
             os.close();
         } catch (Exception e) {
+            LOGGER.error(e.getMessage());
             e.printStackTrace();
         }
     }

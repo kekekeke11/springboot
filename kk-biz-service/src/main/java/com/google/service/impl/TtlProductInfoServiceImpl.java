@@ -31,18 +31,22 @@ public class TtlProductInfoServiceImpl implements TtlProductInfoService {
 
     @Override
     public List<TtlProductInfoPo> listProduct(Map<String, Object> map) {
-        return this.mapper.listProduct(map);
+        return mapper.listProduct(map);
     }
 
     @Override
     public void export(HttpServletResponse response, String fileName) {
-        // 待导出数据
+        //多线程查询数据并封装
         List<TtlProductInfoPo> productInfoPos = this.multiThreadListProduct();
         ExcelUtils excelUtils = new ExcelUtils(productInfoPos, getHeaderInfo(), getFormatInfo());
         excelUtils.sendHttpResponse(response, fileName, excelUtils.getWorkbook());
     }
 
-    // 获取表头信息
+    /**
+     * 获取表头信息
+     *
+     * @return
+     */
     private List<ExcelHeaderInfo> getHeaderInfo() {
         return Arrays.asList(
                 new ExcelHeaderInfo(1, 1, 0, 0, "id"),
@@ -117,7 +121,7 @@ public class TtlProductInfoServiceImpl implements TtlProductInfoService {
             } else {
                 map.put("limit", THREAD_MAX_ROW);
             }
-            FutureTask<List<TtlProductInfoPo>> task = new FutureTask<>(new listThread(map));
+            FutureTask<List<TtlProductInfoPo>> task = new FutureTask<>(new ListThread(map));
             log.info("开始查询第{}条开始的{}条记录", i * THREAD_MAX_ROW, THREAD_MAX_ROW);
             new Thread(task).start();
             // 将任务添加到tasks列表中
@@ -125,14 +129,16 @@ public class TtlProductInfoServiceImpl implements TtlProductInfoService {
         }
     }
 
-    private class listThread implements Callable<List<TtlProductInfoPo>> {
+    private class ListThread implements Callable<List<TtlProductInfoPo>> {
 
         private Map<String, Object> map;
 
-        private listThread(Map<String, Object> map) {
+        //构造函数，用来向task中传递参数
+        private ListThread(Map<String, Object> map) {
             this.map = map;
         }
 
+        //任务执行的动作
         @Override
         public List<TtlProductInfoPo> call() {
             return listProduct(map);
