@@ -1,7 +1,7 @@
 package com.google.util.routing;
 
-import com.google.util.MQConnectionUtils;
 import com.google.util.config.Config;
+import com.google.util.MQConnectionUtils;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 
