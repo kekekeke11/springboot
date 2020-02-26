@@ -16,8 +16,6 @@
         <module>kk-heros-service-9100</module>
         <module>kk-heros-service-7100</module>
         <module>kk-rabbitmq</module>
-        <module>kk-rabbitmq-consumer</module>
-        <module>kk-rabbitmq-producer</module>
         <module>kk-common</module>
         <module>kk-rabbitmq-order</module>
         <module>kk-rabbitmq-dic</module>
@@ -136,6 +134,4 @@
             </snapshots>
         </repository>
     </repositories>
-
-
 </project>

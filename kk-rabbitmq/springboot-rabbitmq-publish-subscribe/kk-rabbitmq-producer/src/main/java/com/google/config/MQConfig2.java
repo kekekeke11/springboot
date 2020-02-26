@@ -2,10 +2,10 @@ package com.google.config;
 
 /**
  * @author wk
- * @Description: 交换机 队列 routingKey名称配置
+ * @Description: 交换机 队列 routingKey名称配置  备份
  * @date 2019/12/16 15:42
  **/
-public class MQConfig {
+public class MQConfig2 {
 
     public static final class EXCHANGE_NAMES {
         //fanout类型交换机
