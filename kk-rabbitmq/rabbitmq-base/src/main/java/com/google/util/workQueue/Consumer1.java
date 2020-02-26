@@ -20,6 +20,7 @@ public class Consumer1 {
     }
 
     public static void customerMember_01() throws IOException, TimeoutException {
+        System.out.println("工作队列-消费者1启动。。。");
         //创建通道
         Channel channel = MQConnectionUtils.getChannel();
         //消费者关联队列
@@ -34,7 +35,7 @@ public class Consumer1 {
                 String msg = new String(body, "UTF-8");
                 System.out.println("消费者——1——获取信息：" + msg);
                 try {
-                    Thread.sleep(2000);
+                    Thread.sleep(1000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 } finally {
@@ -46,7 +47,7 @@ public class Consumer1 {
         };
         //设置应答模式 如果为true情况下，表示为自动应答模式 false表示为手动应答 监听队列
         //channel.basicConsume(queue, true, defaultConsumer);
-        // [ˈbeɪsɪk] 悲sei克
+        // [ˈbeɪsɪk]
         //默认false
         channel.basicConsume(queue, false, defaultConsumer);
     }

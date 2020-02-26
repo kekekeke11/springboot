@@ -23,6 +23,7 @@ public class Consumer2 {
     }
 
     public static void customerMember_02() throws IOException, TimeoutException {
+        System.out.println("工作队列-消费者2启动。。。");
         //创建通道
         Channel channel = MQConnectionUtils.getChannel();
         //消费者关联队列
