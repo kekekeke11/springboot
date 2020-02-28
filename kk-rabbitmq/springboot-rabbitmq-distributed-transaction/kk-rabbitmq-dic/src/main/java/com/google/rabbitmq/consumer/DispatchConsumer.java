@@ -17,7 +17,7 @@ import com.rabbitmq.client.Channel;
 /**
  * 派单服务
  *
- * @author 余胜军
+ * @author
  */
 @Component
 public class DispatchConsumer {
@@ -27,15 +27,37 @@ public class DispatchConsumer {
 
     @RabbitListener(queues = "order_dic_queue")
     public void process(Message message, @Headers Map<String, Object> headers, Channel channel) throws Exception {
+
         String messageId = message.getMessageProperties().getMessageId();
         String msg = new String(message.getBody(), "UTF-8");
-        System.out.println("派单服务平台" + msg + ",消息id:" + messageId);
         JSONObject jsonObject = JSONObject.parseObject(msg);
         String orderId = jsonObject.getString("orderId");
+
         if (StringUtils.isEmpty(orderId)) {
             // 日志记录
             return;
         }
+
+        try {
+            int insertDistribute = dispatchMapper.insertDistribute(generateDic(orderId));
+            if (insertDistribute > 0) {
+                // 手动签收消息,通知mq服务器端删除该消息
+                channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
+                System.out.println("派单服务平台" + msg + ",消息id:" + messageId);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            // // 丢弃该消息
+            channel.basicNack(message.getMessageProperties().getDeliveryTag(), false, false);
+        }
+    }
+
+    /**
+     * 生成派单
+     *
+     * @return
+     */
+    private DispatchEntity generateDic(String orderId) {
         DispatchEntity dispatchEntity = new DispatchEntity();
         // 订单id
         dispatchEntity.setOrderId(orderId);
@@ -43,17 +65,7 @@ public class DispatchConsumer {
         dispatchEntity.setTakeoutUserId(12l);
         // 外卖路线
         dispatchEntity.setDispatchRoute("40,40");
-        try {
-            int insertDistribute = dispatchMapper.insertDistribute(dispatchEntity);
-            if (insertDistribute > 0) {
-                // 手动签收消息,通知mq服务器端删除该消息
-                channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            // // 丢弃该消息
-            channel.basicNack(message.getMessageProperties().getDeliveryTag(), false, false);
-        }
+        return dispatchEntity;
     }
 
 }
