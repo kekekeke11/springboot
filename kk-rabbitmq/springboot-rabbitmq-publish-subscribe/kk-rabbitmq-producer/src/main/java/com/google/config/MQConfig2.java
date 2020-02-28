@@ -8,21 +8,15 @@ package com.google.config;
 public class MQConfig2 {
 
     public static final class EXCHANGE_NAMES {
-        //fanout类型交换机
-        public static final String FANOUT_EXCHANGE = "FANOUT_EXCHANGE";
-
         //死信交换机
         public final static String dead_exchange = "dead_exchange";
-
     }
 
     public static final class QUEUE_NAMES {
+
         //邮件队列
-        public static final String FANOUT_EMAIL_QUEUE = "FANOUT_EMAIL_QUEUE";
         public static final String FANOUT_EMAIL_QUEUE2 = "FANOUT_EMAIL_QUEUE2";
 
-        //短信队列
-        public static final String FANOUT_SMS_QUEUE = "FANOUT_SMS_QUEUE";
         //短信队列
         public static final String FANOUT_SMS_QUEUE2 = "FANOUT_SMS_QUEUE2";
         public static final String FANOUT_SMS_QUEUE3 = "FANOUT_SMS_QUEUE3";
