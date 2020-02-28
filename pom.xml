@@ -10,15 +10,11 @@
     <version>1.0</version>
     <modules>
         <module>kk-app</module>
-        <module>kk-heros-service</module>
-        <module>kk-story-service</module>
-        <module>kk-region-service</module>
-        <module>kk-heros-service-9100</module>
-        <module>kk-heros-service-7100</module>
         <module>kk-rabbitmq</module>
         <module>kk-common</module>
         <module>kk-biz-service</module>
         <module>kk-biz-data</module>
+        <module>kk-eureka</module>
     </modules>
 
     <parent>

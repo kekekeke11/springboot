@@ -9,7 +9,14 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>kk-story-service</artifactId>
-
+    <artifactId>kk-eureka</artifactId>
+    <packaging>pom</packaging>
+    <modules>
+        <module>kk-heros-service</module>
+        <module>kk-heros-service-7100</module>
+        <module>kk-heros-service-9100</module>
+        <module>kk-region-service</module>
+        <module>kk-story-service</module>
+    </modules>
 
 </project>

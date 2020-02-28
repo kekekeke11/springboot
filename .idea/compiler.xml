@@ -35,6 +35,7 @@
       <module name="kk-biz-service" options="-parameters" />
       <module name="kk-common" options="-parameters" />
       <module name="kk-dao" options="-parameters" />
+      <module name="kk-eureka" options="-parameters" />
       <module name="kk-heros-service" options="-parameters" />
       <module name="kk-heros-service-7100" options="-parameters" />
       <module name="kk-heros-service-9100" options="-parameters" />
