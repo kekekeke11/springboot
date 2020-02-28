@@ -4,10 +4,13 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.UUID;
 
+import com.alibaba.fastjson.JSON;
 import com.google.base.BaseApiService;
 import com.google.base.ResponseBase;
 import com.google.entity.OrderEntity;
 import com.google.mapper.OrderMapper;
+import com.google.rabbitmq.RabbitmqConfig;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.core.MessageBuilder;
 import org.springframework.amqp.core.MessageProperties;
@@ -28,20 +31,25 @@ public class OrderService extends BaseApiService implements RabbitTemplate.Confi
     private RabbitTemplate rabbitTemplate;
 
     @Transactional
-    public ResponseBase addOrderAndDispatch() {
+    public ResponseBase addOrderAndDispatch(String data) {
+
+        //获取前台传来的数据
+        if (StringUtils.isBlank(data)) {
+            return setResultError("参数不能为空!");
+        }
+        JSONObject jsonObject = JSON.parseObject(data);
         OrderEntity orderEntity = new OrderEntity();
-        orderEntity.setName("蚂蚁课堂永久会员充值");
+        orderEntity.setName(jsonObject.getString("name"));
         orderEntity.setOrderCreatetime(new Date());
         // 价格是300元
-        orderEntity.setOrderMoney(new BigDecimal("300.00"));
+        orderEntity.setOrderMoney(jsonObject.getBigDecimal("money"));
         // 状态为 未支付
         orderEntity.setOrderState(0);
-        Long commodityId = 30l;
         // 商品id
-        orderEntity.setCommodityId(commodityId);
+        orderEntity.setCommodityId(jsonObject.getLong("CommodityId"));
         String orderId = UUID.randomUUID().toString();
         orderEntity.setOrderId(orderId);
-        // ##################################################
+
         // 1.先下单，创建订单 (往订单数据库中插入一条数据)
         int orderResult = orderMapper.addOrder(orderEntity);
         System.out.println("创建订单orderResult:" + orderResult);
@@ -52,7 +60,7 @@ public class OrderService extends BaseApiService implements RabbitTemplate.Confi
         send(orderId);
 
         //模拟场景3 前面创建的订单会回滚，补单开始起作用
-        int i = 1 / 0;
+        //int i = 1 / 0;
 
         return setResultSuccess();
     }
@@ -65,15 +73,17 @@ public class OrderService extends BaseApiService implements RabbitTemplate.Confi
         // 封装消息
         Message message = MessageBuilder.withBody(msg.getBytes()).setContentType(MessageProperties.CONTENT_TYPE_JSON)
                 .setContentEncoding("utf-8").setMessageId(orderId).build();
-        // 构建回调返回的数据
+        // 构建回调返回的数据(消息Id)
         CorrelationData correlationData = new CorrelationData(orderId);
 
-        // 发送消息 rue：RabbitMQ会调用Basic.Return命令将消息返回给生产者
+        // 发送消息 true：RabbitMQ会调用Basic.Return命令将消息返回给生产者
         //false：RabbitMQ会把消息直接丢弃
         this.rabbitTemplate.setMandatory(true);
-
+        //Confirm机制，会调用该send方法
         this.rabbitTemplate.setConfirmCallback(this);
-        rabbitTemplate.convertAndSend("order_exchange_name", "orderRoutingKey", message, correlationData);
+
+        //(交换机,路由Key,Message,CorrelationData)
+        rabbitTemplate.convertAndSend(RabbitmqConfig.ORDER_EXCHANGE_NAME, RabbitmqConfig.ORDER_ROUTING_KEY, message, correlationData);
 
     }
 
