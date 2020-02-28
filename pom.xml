@@ -17,8 +17,6 @@
         <module>kk-heros-service-7100</module>
         <module>kk-rabbitmq</module>
         <module>kk-common</module>
-        <module>kk-rabbitmq-order</module>
-        <module>kk-rabbitmq-dic</module>
         <module>kk-biz-service</module>
         <module>kk-biz-data</module>
     </modules>

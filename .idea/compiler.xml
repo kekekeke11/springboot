@@ -47,6 +47,7 @@
       <module name="kk-service" options="-parameters" />
       <module name="kk-story-service" options="-parameters" />
       <module name="rabbitmq-base" options="-parameters" />
+      <module name="springboot-rabbitmq-distributed-transaction" options="-parameters" />
       <module name="springboot-rabbitmq-publish-subscribe" options="-parameters" />
     </option>
   </component>
