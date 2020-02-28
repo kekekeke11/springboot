@@ -19,7 +19,7 @@ import java.util.Map;
 @Component
 public class FanoutSmsConsumer4 {
 
-    //模拟messageId存储 消息是否被消费存储
+    //模拟messageId存储 消息是否被消费
     static Map<String, Boolean> messageIdsCache = new HashMap<>();
 
 
@@ -44,7 +44,7 @@ public class FanoutSmsConsumer4 {
             Long deliveryTag = (Long) headers.get(AmqpHeaders.DELIVERY_TAG);
             //手动签收
             channel.basicAck(deliveryTag, false);
-            System.out.println("短信服务调用成功！FanoutSmsConsumer4 " + msg);
+            System.out.println("短信服务调用成功！FanoutSmsConsumer4 " + msg+"，messageId: "+messageIdsCache.toString());
         } catch (Exception e) {
             e.printStackTrace();
             //拒绝消费消息（丢弃消息）给死信队列

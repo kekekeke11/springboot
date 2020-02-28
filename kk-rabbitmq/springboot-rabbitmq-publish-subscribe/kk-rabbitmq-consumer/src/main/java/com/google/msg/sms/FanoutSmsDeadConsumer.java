@@ -35,6 +35,6 @@ public class FanoutSmsDeadConsumer {
         //消息是否消费
         messageIdsCache.put(messageId, true);
         channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
-        System.out.println("短信服务调用成功！死信队列FanoutSmsDeadConsumer " + msg);
+        System.out.println("短信服务调用成功！死信队列FanoutSmsDeadConsumer " + msg + "，messageId: " + messageIdsCache.toString());
     }
 }
