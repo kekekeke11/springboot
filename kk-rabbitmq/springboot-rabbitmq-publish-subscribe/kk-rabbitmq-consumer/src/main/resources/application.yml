@@ -15,9 +15,9 @@ spring:
           max-attempts: 5
           ####重试间隔次数
           initial-interval: 10000
-        #（应答模式）开启手动ack
+        #（应答模式）开启手动ack manual   auto
         acknowledge-mode: manual
-        #数据库连接信息
+  #数据库连接信息
   datasource:
     name: test
     url: jdbc:mysql://127.0.0.1:3306/kzone?useUnicode=true&characterEncoding=utf8&autoReconnect=true&rewriteBatchedStatements=TRUE&useSSL=false
