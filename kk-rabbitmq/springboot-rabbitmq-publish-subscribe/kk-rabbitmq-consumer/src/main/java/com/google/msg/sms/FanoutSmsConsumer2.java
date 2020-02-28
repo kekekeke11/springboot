@@ -23,8 +23,8 @@ public class FanoutSmsConsumer2 {
     @Value("${smsUrl}")
     private String smsUrl;
 
-    //模拟messageId存储 消息是否被消费存储
-    static Map<String, Boolean> messageIdsCache = new HashMap<>();
+    //模拟messageId存储 消息是否被消费
+    private static Map<String, Boolean> messageIdsCache = new HashMap<>();
 
 
     @RabbitListener(queues = "FANOUT_SMS_QUEUE2")
@@ -47,7 +47,7 @@ public class FanoutSmsConsumer2 {
         }
         //业务执行成功，消息被消费
         messageIdsCache.put(messageId, true);
-        System.out.println("短信服务调用成功！FanoutSmsConsumer2 " + msg);
+        System.out.println("短信服务调用成功！FanoutSmsConsumer2 " + msg+"，messageId: "+messageIdsCache.toString());
         //默认自动应答
     }
 }
