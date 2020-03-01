@@ -1,0 +1,11 @@
+注册中心
+kk-heros-service
+kk-heros-service-7100
+kk-heros-service-9100
+
+服务提供者
+kk-story-service
+
+服务消费者
+kk-region-service
+
